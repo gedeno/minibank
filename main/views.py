@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login ,logout ,authenticate
 from django.contrib.auth.decorators import login_required
+from . forms import form_info
 # Create your views here.
 def register(request):
     form = UserCreationForm()
@@ -21,3 +22,13 @@ def logins(request):
             login(request,user)
             return redirect()
     return render(request,'main/login.html')
+
+def User_UI(request):
+    form = form_info()
+    if request.method == 'POST':
+        form = form_info(request.POST)
+        if form.is_valid:
+            usr = form.save(commit=False)
+            usr.user = request.user
+            usr.save()
+            

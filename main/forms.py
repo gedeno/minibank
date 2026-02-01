@@ -7,4 +7,4 @@ from . models import Users_info
 class form_info(ModelForm):
     class Meta:
         model = Users_info
-        feild = ['acc_no','balance']
+        feild = ['name','acc_no']
