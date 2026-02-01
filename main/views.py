@@ -11,7 +11,7 @@ def register(request):
         if form.is_valid:
             form.save()
             return redirect('login')
-    return render(request,'main/register.html')
+    return render(request,'main/register.html',{'form':form})
 
 def logins(request):
     if request.method == 'POST':
@@ -20,9 +20,10 @@ def logins(request):
         user = authenticate(request,username = username,password= password)
         if user != None:
             login(request,user)
-            return redirect()
+            return redirect('user_ui')
     return render(request,'main/login.html')
 
+@login_required(login_url='login')
 def User_UI(request):
     form = form_info()
     if request.method == 'POST':
@@ -31,4 +32,6 @@ def User_UI(request):
             usr = form.save(commit=False)
             usr.user = request.user
             usr.save()
+    return render(request,'main/user_ui.html',{'form':form})
+
             
