@@ -9,6 +9,7 @@ urlpatterns = [
     path('user_ui2/<int:id>/',views.user_UI2,name='user_ui2'),
     path('deposits/<int:id>/',views.Deposits,name ='deposits'),
     path('withdrow/<int:id>/',views.withdrows,name = 'withdrow'),
-    
+    path('balance_checks/<int:id>/',views.balance_checks,name = 'balance_checks'),
+
 
 ]

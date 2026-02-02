@@ -45,8 +45,8 @@ def user_UI2(request,id):
         if user_fill == 'deposit':
             return redirect(f'/deposits/{id}')
         elif user_fill == 'withdrow':
-            return redirect(f'/withdrows/{id}')
-        elif user_fill == 'balance_checks':
+            return redirect(f'/withdrow/{id}')
+        elif user_fill == 'balance_check':
             return redirect(f'/balance_checks/{id}')
         elif user_fill == 'transfer':
             return redirect(f'/transfers/{id}')
@@ -72,3 +72,12 @@ def withdrows(request,id):
             userr.save()
             return redirect(f'/user_ui2/{id}')
     return render(request,'main/withdrow.html')
+def balance_checks(request,id):
+    userr = Users_info.objects.get(id = id)
+    balance = userr.balance
+   
+    if request.method == 'POST':
+        uis = request.POST.get('ui')
+        if uis == 'go back':
+            return redirect(f'/user_ui2/{id}')
+    return render(request,'main/balance_check.html',{'balance':balance})
