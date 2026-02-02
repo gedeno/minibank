@@ -10,6 +10,8 @@ urlpatterns = [
     path('deposits/<int:id>/',views.Deposits,name ='deposits'),
     path('withdrow/<int:id>/',views.withdrows,name = 'withdrow'),
     path('balance_checks/<int:id>/',views.balance_checks,name = 'balance_checks'),
+    path('transfers/<int:id>/',views.transfers,name = 'transfers'),
+    path('logout/',views.logouts,name = 'logout')
 
 
 ]

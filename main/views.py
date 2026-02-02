@@ -4,6 +4,7 @@ from django.contrib.auth import login ,logout ,authenticate
 from django.contrib.auth.decorators import login_required
 from . models import Users_info
 from . forms import form_info
+
 # Create your views here.
 def register(request):
     form = UserCreationForm()
@@ -14,6 +15,7 @@ def register(request):
         if form.is_valid():
             uss = form.save()
             form1 = Users_info( name = username, acc_no = acc_nos, user = uss)
+            acc_nos  +=  1 
             form1.save()
             return redirect('login')
     return render(request,'main/register.html',{'form':form})
@@ -33,7 +35,7 @@ def deposite_name(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         userr = Users_info.objects.get(name=name)
-        if userr:
+        if userr.user == request.user:
             return redirect(f'/user_ui2/{userr.id}')
     return render(request,'main/deposite_name.html')
 
@@ -62,7 +64,6 @@ def Deposits(request,id):
         return redirect(f'/user_ui2/{id}')
     return render(request,'main/deposit.html')
 
-
 def withdrows(request,id):
     userr = Users_info.objects.get(id = id)
     if request.method == 'POST':
@@ -81,3 +82,22 @@ def balance_checks(request,id):
         if uis == 'go back':
             return redirect(f'/user_ui2/{id}')
     return render(request,'main/balance_check.html',{'balance':balance})
+
+def transfers(request,id):
+    userr = Users_info.objects.get(id =id)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        acc_no = request.POST.get('acc_no')
+        mony_val = request.POST.get('mony_val')
+        recver_acc = Users_info.objects.get(name = name) 
+        if userr.balance >= int(mony_val):
+            userr.balance = userr.balance - int(mony_val)
+            recver_acc.balance = recver_acc.balance + int(mony_val)
+            userr.save()
+            recver_acc.save()
+            return redirect(f'/user_ui2/{id}')
+    return render(request,'main/transfer.html')
+
+def logouts(request):
+    logout(request)
+    return redirect('login')
