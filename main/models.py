@@ -8,3 +8,5 @@ class Users_info(models.Model):
     acc_no = models.IntegerField()
     balance = models.IntegerField(default=0)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    def __str__ (self ):
+        return self.name
