@@ -22,8 +22,6 @@ def logins(request):
             login(request,user)
             return redirect('user_ui')
     return render(request,'main/login.html')
-
-@login_required(login_url='login')
 def User_UI(request):
     form = form_info()
     if request.method == 'POST':
@@ -32,6 +30,18 @@ def User_UI(request):
             usr = form.save(commit=False)
             usr.user = request.user
             usr.save()
+            return redirect('user_ui2')
     return render(request,'main/user_ui.html',{'form':form})
-
-            
+@login_required(login_url='login')
+def user_UI2(request):
+    if request.method == 'POST':
+        user_fill = request.POST.get('user_interest')
+        if user_fill == 'deposit':
+            return redirect('deposits')
+        elif user_fill == 'withdrow':
+            return redirect('withdrows')
+        elif user_fill == 'balance_checks':
+            return redirect('balance_checks')
+        elif user_fill == 'transfer':
+            return redirect('transfers')
+    return render(request,'main/user_ui2.html')
